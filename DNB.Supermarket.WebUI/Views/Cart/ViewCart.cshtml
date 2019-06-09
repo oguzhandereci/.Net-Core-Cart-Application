@@ -1,0 +1,101 @@
+﻿@using DNB.Supermarket.Entities.Enums
+@model DNB.Supermarket.Entities.ViewModels.CartSummaryViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+@section top
+{
+    <link href="~/node_modules/jquery.dataTables.min.js/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jq-3.3.1/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-flash-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/r-2.2.2/sc-1.5.0/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
+
+}
+
+<h2>Products in Your Cart</h2>
+<table class="table table-responsive dataTable">
+    <thead>
+    <tr>
+        <th style="text-align: left">Product Name</th>
+        <th>Unit Price</th>
+        <th>Units In Stock</th>
+        <th>Selling Quantity</th>
+        <th>Operations</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Cart.CartLines)
+    {
+        var data = item.Product.ProductId;
+        <tr>
+            <td>@item.Product.ProductName</td>
+            <td>@item.Product.SellPrice</td>
+            <td>@item.Product.UnitsInStock</td>
+            <td>@item.Quantity</td>
+            <td id="islem">
+                <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-prdId="@data" class="btn btn-info" id="sepeteEkle">Remove from Cart</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div class="form-inline col-md-offset-6" style="border-style: groove">
+    <h4 class="col-md-12" style="font-weight: bold">Purchasing</h4>
+    <div class="form-group" style="margin: 14px">
+        <div class="input-group">
+            <div class="input-group-addon">₺</div>
+            <input type="text" class="form-control" id="totalPrice" placeholder="Total Price" readonly="readonly" value="@Model.Cart.Total">
+            <div class="input-group-addon"></div>
+        </div>
+    </div>
+    <div class="form-group" style="margin-top: 10px;margin-bottom: 10px">
+        <div class="input-group col-md-12">
+            <div class="col-md-6">
+                <select id="odemeTipi" class="form-control">
+                    <option disabled="disabled" selected="selected">Choose your payment type..</option>
+                    <option>@PaymentTypes.KrediKartı</option>
+                    <option>@PaymentTypes.Nakit</option>
+                </select>
+            </div>
+            <div class="col-md-6"><a class="btn btn-primary col-md-12 col-md-offset-12" style="margin-bottom: 5px" id="purchase">Purchase</a></div>
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <script src="~/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="~/node_modules/jquery.dataTables.min.js/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".dataTable").DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+
+        $("#purchase").click(function() {
+            var basketId = $("#basketId").val();
+            var paymentType = $("#odemeTipi").val();
+
+            var data = {
+                Cart: @Model.Cart,
+                PaymentTypes: paymentType
+            };
+
+            console.log(data);
+            $.ajax({
+                url: "@Url.Action("Purchase", "Cart")",
+                method: "post",
+                data: data
+            });
+        });
+    </script>
+}

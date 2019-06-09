@@ -1,0 +1,56 @@
+﻿@model DNB.Supermarket.Entities.ViewModels.LoginViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/node_modules/style.css" rel="stylesheet" />
+    <link href="~/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/node_modules/jquery/dist/jquery.min.js"></script>
+
+    @*<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>*@
+</head>
+<body>
+
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <!-- Tabs Titles -->
+            <!-- Icon -->
+            <div class="fadeIn first">
+                <h3>Log In</h3>
+            </div>
+
+            <!-- Login Form -->
+            @*<form role="form" asp-controller="Account" asp-action="Login" method="post">
+                    <input type="text" asp-for="UserName" class="fadeIn second" placeholder="Username">
+                    <input type="password" asp-for="Password" class="fadeIn third" placeholder="Password">
+                    <button type="submit" class="btn btn-info col-md-10 col-md-offset-1" style="margin-bottom: 10px">Log In</button>
+                </form>*@
+
+            <div class="form-horizontal">
+                @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+                {
+                    @Html.ValidationSummary();
+                    @Html.TextBoxFor(x => x.UserName, new { @class = "fadeIn second", type = "text", placeholder = "Username" })
+                    @Html.TextBoxFor(x => x.Password, new { @class = "fadeIn third", type = "password", placeholder = "Password" })
+                    @*<button type="submit" class="fadeIn fourth btn btn-success col-md-10 col-md-offset-1" style="margin-bottom: 5px">Log In</button>*@
+                    <input type="submit" class="fadeIn fourth" value="Log In" />
+
+                }
+            </div>
+
+            <div id="formFooter">
+                <a class="underlineHover" href="@Url.Action("Register","Account")">Sign Up</a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

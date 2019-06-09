@@ -1,0 +1,38 @@
+﻿@using DNB.Supermarket.Business.Abstract
+@using DNB.Supermarket.Entities.Entities
+@model DNB.Supermarket.Entities.ViewModels.CartSummaryViewModel
+@inject IProductService ProductService
+
+<ul class="dropdown-menu">
+
+    
+    @if (Model.Cart.CartLines.Count>0)
+    {
+        Product prd = null;
+        decimal toplam=0;
+        foreach (var item in Model.Cart.CartLines)
+        {
+            var data = item.Product.ProductId;
+            prd = ProductService.GetAll().FirstOrDefault(x => x.ProductId == data);
+
+            if (prd != null)
+            {
+                toplam += item.Quantity * prd.SellPrice;
+                //toplam += item.SubTotal;
+                <li><a>@prd.ProductName <span class="badge">@item.Quantity</span></a></li>
+            }
+             
+        }
+
+        <li role="separator" class="divider"></li>
+        <li><a href="@Url.Action("ViewCart","Cart")" title="Sepete Git"><span class="glyphicon glyphicon-align-left glyphicon-shopping-cart" aria-hidden="true"></span> @toplam</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="@Url.Action("PurchasedItems","Cart")" ><span class="glyphicon glyphicon-align-left glyphicon-shopping-cart" aria-hidden="true"></span> Satın Alınanlar</a></li>
+    }
+    else
+    {
+        <li><a><span class="badge">Sepetinizde herhangi bir ürün bulunmamaktadır.</span></a></li>
+    }
+
+    <li><a href="@Url.Action("Logout", "Account")">Çıkış</a></li>
+</ul>

@@ -1,0 +1,36 @@
+﻿@model DNB.Supermarket.Entities.ViewModels.ProductViewModel
+@{
+    ViewData["Title"] = "UpdateProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section top{
+    <link href="~/node_modules/style.css" rel="stylesheet" />
+    <link href="~/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/node_modules/jquery/dist/jquery.min.js"></script>
+}
+
+<h2>Ürün Güncelleme Sayfası</h2>
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+
+        <div class="form-horizontal">
+            @using (Html.BeginForm("UpdateProduct", "Product", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                @Html.HiddenFor(x=>x.ProductId)
+                @Html.TextBoxFor(x => x.ProductName, new { @class = "fadeIn second", type = "text", placeholder = "Ürün Adı" })
+                @Html.TextBoxFor(x => x.Category, new { @class = "fadeIn third", type = "text", placeholder = "Kategori" })
+                @Html.TextBoxFor(x => x.SellPrice, new { @class = "fadeIn third", type = "text", placeholder = "Satış Fiyatı" })
+                @Html.TextBoxFor(x => x.UnitsInStock, new { @class = "fadeIn third", type = "text", placeholder = "Stok Adedi" })
+                @*<button type="submit" class="fadeIn fourth btn btn-success col-md-10 col-md-offset-1" style="margin-bottom: 5px">Log In</button>*@
+                <input type="submit" class="fadeIn fourth" value="Güncelle" />
+
+            }
+        </div>
+
+    </div>
+</div>
+
