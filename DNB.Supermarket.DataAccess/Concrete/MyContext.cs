@@ -8,6 +8,12 @@ namespace DNB.Supermarket.DataAccess.Concrete
 {
     public class MyContext:DbContext
     {
+        public MyContext()
+        {
+        }
+        public MyContext(DbContextOptions<MyContext> options) : base(options)
+        {
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=DNBSupermarketDb;Trusted_Connection=True;MultipleActiveResultSets=true");
