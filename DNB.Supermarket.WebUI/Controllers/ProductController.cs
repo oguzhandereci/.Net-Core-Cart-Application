@@ -100,5 +100,12 @@ namespace DNB.Supermarket.WebUI.Controllers
             TempData["message"] = "Ürün güncelleme işlemi başarılı";
             return RedirectToAction("Index", "Product");
         }
+
+        [HttpPost]
+        public IActionResult DeleteProduct(Guid id)
+        {
+            _productService.Delete(id);
+            return RedirectToAction("Index", "Product");
+        }
     }
 }
