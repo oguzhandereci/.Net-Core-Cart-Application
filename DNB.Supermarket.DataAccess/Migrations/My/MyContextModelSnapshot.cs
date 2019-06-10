@@ -37,6 +37,21 @@ namespace DNB.Supermarket.DataAccess.Migrations.My
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("DNB.Supermarket.Entities.Entities.OrderProduct", b =>
+                {
+                    b.Property<Guid>("OrderId");
+
+                    b.Property<Guid>("ProductId");
+
+                    b.Property<int>("SellingQuantity");
+
+                    b.HasKey("OrderId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderProducts");
+                });
+
             modelBuilder.Entity("DNB.Supermarket.Entities.Entities.Product", b =>
                 {
                     b.Property<Guid>("ProductId")
@@ -109,6 +124,19 @@ namespace DNB.Supermarket.DataAccess.Migrations.My
                     b.HasOne("DNB.Supermarket.Entities.IdentityEntities.AppUser", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DNB.Supermarket.Entities.Entities.OrderProduct", b =>
+                {
+                    b.HasOne("DNB.Supermarket.Entities.Entities.Order", "Order")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DNB.Supermarket.Entities.Entities.Product", "Product")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

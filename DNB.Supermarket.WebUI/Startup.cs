@@ -55,6 +55,8 @@ namespace DNB.Supermarket.WebUI
             services.AddScoped<IProductDAL, EfProductDAL>();
             services.AddScoped<IOrderService, OrderManager>();
             services.AddScoped<IOrderDAL, EfOrderDAL>();
+            services.AddScoped<IOrderProductService, OrderProductManager>();
+            services.AddScoped<IOrderProductDAL, EfOrderProductDAL>();
             services.AddSingleton<ICartService, CartManager>();
             services.AddSingleton<ICartSessionService, CartSessionManager>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -85,6 +87,7 @@ namespace DNB.Supermarket.WebUI
             }
 
             app.UseHttpsRedirection();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 

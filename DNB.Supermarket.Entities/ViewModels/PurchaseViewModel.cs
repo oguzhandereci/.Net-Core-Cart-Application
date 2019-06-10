@@ -8,7 +8,6 @@ namespace DNB.Supermarket.Entities.ViewModels
 {
     public class PurchaseViewModel
     {
-        public Cart Cart { get; set; }
         public PaymentTypes PaymentTypes { get; set; }
     }
 }

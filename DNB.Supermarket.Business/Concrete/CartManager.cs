@@ -17,11 +17,14 @@ namespace DNB.Supermarket.Business.Concrete
                 cartContext.Quantity++;
                 return;
             }
-            cart.CartLines.Add(new CartLine()
+
+            cartContext = new CartLine()
             {
                 Product = prd,
                 Quantity = 1
-            });
+            };
+            cart.CartLines.Add(cartContext);
+            prd.UnitsInStock -= Convert.ToInt16(cartContext.Quantity);
         }
 
         public void RemoveFromCart(Cart cart, Guid prdId)

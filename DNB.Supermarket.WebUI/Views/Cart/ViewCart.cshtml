@@ -1,5 +1,5 @@
 ﻿@using DNB.Supermarket.Entities.Enums
-@model DNB.Supermarket.Entities.ViewModels.CartSummaryViewModel
+@model DNB.Supermarket.Entities.ViewModels.PurchaseCartSummaryViewModel
 
 @{
     ViewBag.Title = "title";
@@ -7,8 +7,8 @@
 }
 
 @section top
-{
-    <link href="~/node_modules/jquery.dataTables.min.js/css/jquery.dataTables.min.css" rel="stylesheet" />
+    {
+    <link href="~/lib/jquery.dataTables.min.js/css/jquery.dataTables.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jq-3.3.1/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-flash-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/r-2.2.2/sc-1.5.0/datatables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
 
@@ -17,62 +17,66 @@
 <h2>Products in Your Cart</h2>
 <table class="table table-responsive dataTable">
     <thead>
-    <tr>
-        <th style="text-align: left">Product Name</th>
-        <th>Unit Price</th>
-        <th>Units In Stock</th>
-        <th>Selling Quantity</th>
-        <th>Operations</th>
-    </tr>
+        <tr>
+            <th style="text-align: left">Product Name</th>
+            <th>Unit Price</th>
+            <th>Units In Stock</th>
+            <th>Selling Quantity</th>
+            <th>Operations</th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.Cart.CartLines)
-    {
-        var data = item.Product.ProductId;
-        <tr>
-            <td>@item.Product.ProductName</td>
-            <td>@item.Product.SellPrice</td>
-            <td>@item.Product.UnitsInStock</td>
-            <td>@item.Quantity</td>
-            <td id="islem">
-                <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-prdId="@data" class="btn btn-info" id="sepeteEkle">Remove from Cart</a>
-            </td>
-        </tr>
-    }
+        @foreach (var item in Model.CartSummaryViewModel.Cart.CartLines)
+        {
+            var data = item.Product.ProductId;
+            <tr>
+                <td>@item.Product.ProductName</td>
+                <td>@item.Product.SellPrice</td>
+                <td>@item.Product.UnitsInStock</td>
+                <td>@item.Quantity</td>
+                <td id="islem">
+                    <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-prdId="@data" class="btn btn-info" id="sepeteEkle">Remove from Cart</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
-<div class="form-inline col-md-offset-6" style="border-style: groove">
+<div class="form-inline col-md-offset-6" style="border-style: groove;margin-top: 100px">
     <h4 class="col-md-12" style="font-weight: bold">Purchasing</h4>
-    <div class="form-group" style="margin: 14px">
-        <div class="input-group">
-            <div class="input-group-addon">₺</div>
-            <input type="text" class="form-control" id="totalPrice" placeholder="Total Price" readonly="readonly" value="@Model.Cart.Total">
-            <div class="input-group-addon"></div>
-        </div>
-    </div>
-    <div class="form-group" style="margin-top: 10px;margin-bottom: 10px">
-        <div class="input-group col-md-12">
-            <div class="col-md-6">
-                <select id="odemeTipi" class="form-control">
-                    <option disabled="disabled" selected="selected">Choose your payment type..</option>
-                    <option>@PaymentTypes.KrediKartı</option>
-                    <option>@PaymentTypes.Nakit</option>
-                </select>
+    <form asp-action="Purchase" asp-controller="Cart" method="post">
+        <div class="form-group" style="margin: 14px">
+            <div class="input-group">
+                <div class="input-group-addon">₺</div>
+                <input asp-for="CartSummaryViewModel.Cart.Total" type="text" class="form-control" id="totalPrice" placeholder="Total Price" readonly="readonly" value="@Model.CartSummaryViewModel.Cart.Total">
+                <div class="input-group-addon"></div>
             </div>
-            <div class="col-md-6"><a class="btn btn-primary col-md-12 col-md-offset-12" style="margin-bottom: 5px" id="purchase">Purchase</a></div>
         </div>
+        <div class="form-group" style="margin-top: 10px;margin-bottom: 10px">
+            <div class="input-group col-md-12">
+                <div class="col-md-6">
+                    <select asp-for="PurchaseViewModel.PaymentTypes" id="odemeTipi" class="form-control">
+                        <option disabled="disabled" selected="selected">Choose your payment type..</option>
+                        <option>@PaymentTypes.KrediKartı</option>
+                        <option>@PaymentTypes.Nakit</option>
+                    </select>
+                </div>
+                <div class="col-md-6"><input type="submit" class="btn btn-primary col-md-10 col-md-offset-8" style="margin-bottom: 5px" id="purchase" value="Purchase" /></div>
+                @*<div class="col-md-6"><a asp-controller="Cart" asp-action="Purchase" asp-route-model="@Model.PurchaseViewModel" class="btn btn-primary col-md-10 col-md-offset-8" style="margin-bottom: 5px" id="purchase">Purchase</a></div>*@
+            </div>
 
-    </div>
+        </div>
+    </form>
+    
 
 </div>
 
 @section Scripts
-{
-    <script src="~/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="~/node_modules/jquery.dataTables.min.js/js/jquery.dataTables.min.js"></script>
+    {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery.dataTables.min.js/js/jquery.dataTables.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $jQuery(document).ready(function() {
             $(".dataTable").DataTable({
                 dom: 'Bfrtip',
                 buttons: [
@@ -81,20 +85,19 @@
             });
         });
 
+        var paymentType = $('#odemeTipi').val();
+        //var posturl = '/Cart/Purchase';
+        var data = {
+            PaymentTypes: paymentType
+        };
+
         $("#purchase").click(function() {
-            var basketId = $("#basketId").val();
-            var paymentType = $("#odemeTipi").val();
-
-            var data = {
-                Cart: @Model.Cart,
-                PaymentTypes: paymentType
-            };
-
-            console.log(data);
             $.ajax({
-                url: "@Url.Action("Purchase", "Cart")",
-                method: "post",
-                data: data
+                url: '@Url.Action("Purchase","Cart")',
+                data: data,
+                type: "POST"
+            }).done(function() {
+                redirect.url(@Url.Action("Index","Home"));
             });
         });
     </script>

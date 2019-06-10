@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using DNB.Supermarket.Business.Abstract;
 using DNB.Supermarket.DataAccess.Abstract;
@@ -16,9 +17,9 @@ namespace DNB.Supermarket.Business.Concrete
             _orderDal = orderDal;
         }
 
-        public List<Order> GetAll()
+        public List<Order> GetAll(Expression<Func<Order, bool>> filter = null)
         {
-            return _orderDal.GetList();
+            return _orderDal.GetList(filter);
         }
 
         public Order GetById(Guid id)

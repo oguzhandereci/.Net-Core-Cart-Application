@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DNB.Supermarket.WebUI.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;

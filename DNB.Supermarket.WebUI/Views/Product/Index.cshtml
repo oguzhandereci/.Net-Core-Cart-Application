@@ -6,7 +6,7 @@
 
 @section top
     {
-    <link href="~/node_modules/jquery.dataTables.min.js/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/lib/jquery.dataTables.min.js/css/jquery.dataTables.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jq-3.3.1/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-flash-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/r-2.2.2/sc-1.5.0/datatables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
 
@@ -21,7 +21,7 @@
 
 </div>
 
-<a href="@Url.Action("AddProduct","Product")" class="btn btn-info">Ürün Ekle</a>
+<a href="@Url.Action("AddProduct","Product")" class="btn btn-info">Add Product</a>
 <table class="table table-responsive dataTable">
     <thead>
         <tr>
@@ -53,8 +53,8 @@
 
 @section Scripts
     {
-    <script src="~/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="~/node_modules/jquery.dataTables.min.js/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery.dataTables.min.js/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
             $(".dataTable").DataTable({
@@ -71,9 +71,7 @@
                 $('#myModal').modal('show');
             });
 
-            $("#sepeteEkle").click(function() {
-                var prdId = @Model.
-            })
+            
         });
     </script>
 }

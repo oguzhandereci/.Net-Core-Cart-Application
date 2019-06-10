@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="node_modules\style.css" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.1.1" />
@@ -27,6 +23,6 @@
     <ProjectReference Include="..\DNB.Supermarket.Entities\DNB.Supermarket.Entities.csproj" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties package-lock_1json__JSONSchema="http://json.schemastore.org/package" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>
